@@ -15,6 +15,7 @@ export class CardsService {
   async findAll(): Promise<Card[]> {
     const cards = await this.cardsRepository.find({
       relations: ['owner', 'likes'],
+      order: { createdAt: 'DESC' },
     });
 
     return cards;

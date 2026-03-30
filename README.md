@@ -1,98 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Mesto API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Бэкенд для учебного проекта «Mesto» (Яндекс Практикум). Полная обратная совместимость с оригинальным API.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Стек:** NestJS · TypeScript · PostgreSQL · TypeORM · Docker
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Быстрый старт
 
-## Project setup
+### 1. Клонировать репо и установить зависимости
 
 ```bash
-$ npm install
+git clone https://github.com/morsssch/mesto-ad-backend.git
+cd mesto-ad-backend
+npm install
 ```
 
-## Compile and run the project
+### 2. Настроить переменные окружения
+
+Скопируй `.env.example` в `.env` и заполни:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+```env
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=твой_пароль
+DATABASE_NAME=mesto
+
+USER_TOKEN=придумай_токен
+USER_NAME=Имя
+USER_ABOUT=Фамилия
+USER_AVATAR=https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg
+USER_COHORT=cohort-999
+
+ORIGINAL_BASE_URL=https://mesto.nomoreparties.co/v1/твой-cohort
+ORIGINAL_TOKEN=твой_токен_от_практикума
+```
+
+### 3. Запустить через Docker
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up --build
 ```
 
-## Deployment
+Сервер запустится на `http://localhost:3000`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4. Залить данные с оригинального API
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+node scripts/seed.js
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Эндпоинты
 
-Check out a few resources that may come in handy when working with NestJS:
+Все запросы требуют заголовок `authorization: <USER_TOKEN>`
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Пользователь
 
-## Support
+| Метод | URL                | Описание                     |
+| ----- | ------------------ | ---------------------------- |
+| GET   | `/users/me`        | Получить данные пользователя |
+| PATCH | `/users/me`        | Обновить имя и описание      |
+| PATCH | `/users/me/avatar` | Обновить аватар              |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Карточки
 
-## Stay in touch
+| Метод  | URL                    | Описание              |
+| ------ | ---------------------- | --------------------- |
+| GET    | `/cards`               | Получить все карточки |
+| POST   | `/cards`               | Создать карточку      |
+| DELETE | `/cards/:cardId`       | Удалить карточку      |
+| PUT    | `/cards/likes/:cardId` | Поставить лайк        |
+| DELETE | `/cards/likes/:cardId` | Убрать лайк           |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## Подключение фронтенда
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Замени в своём фронтенде:
+
+```js
+const config = {
+  baseUrl: 'http://адрес-сервера:3000/v1/cohort-999',
+  headers: {
+    authorization: 'твой_USER_TOKEN',
+    'Content-Type': 'application/json',
+  },
+};
+```
+
+---
+
+## Локальная разработка (без Docker)
+
+```bash
+npm run start:dev
+```
+
+Требует локально установленный PostgreSQL и созданную базу `mesto`.
