@@ -11,6 +11,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     private config: ConfigService,
   ) {}
+
   async onModuleInit() {
     const res = await this.getMe();
     if (res === null) {
@@ -27,5 +28,20 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.findOne({
       where: { cohort: this.config.get('USER_COHORT') },
     });
+  }
+
+  async updateMe(name: string, about: string): Promise<User> {
+    const user = await this.getMe();
+    if (!user) throw new Error('User not found');
+    user.name = name;
+    user.about = about;
+    return this.usersRepository.save(user);
+  }
+
+  async updateAvatar(avatar: string): Promise<User> {
+    const user = await this.getMe();
+    if (!user) throw new Error('User not found');
+    user.avatar = avatar;
+    return this.usersRepository.save(user);
   }
 }
