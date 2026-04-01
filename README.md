@@ -8,7 +8,7 @@
 
 ## Быстрый старт
 
-### 1. Клонировать репо и установить зависимости
+### 1. Клонировать репозиторий и установить зависимости
 
 ```bash
 git clone https://github.com/morsssch/mesto-ad-backend.git
@@ -18,11 +18,7 @@ npm install
 
 ### 2. Настроить переменные окружения
 
-Скопируй `.env.example` в `.env` и заполни:
-
-```bash
-cp .env.example .env
-```
+Скопируйте `.env.example` в `.env` и заполните:
 
 ```env
 DATABASE_HOST=localhost
@@ -49,7 +45,7 @@ docker compose up --build
 
 Сервер запустится на `http://localhost:3000`
 
-### 4. Залить данные с оригинального API
+### 4. Залить данные с оригинального API (если есть доступ к курсу, опционально)
 
 ```bash
 node scripts/seed.js
